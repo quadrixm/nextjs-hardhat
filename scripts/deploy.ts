@@ -1,4 +1,5 @@
 import { ethers } from "hardhat";
+import * as fs from 'fs';
 
 async function main() {
   const currentTimestampInSeconds = Math.round(Date.now() / 1000);
@@ -25,6 +26,13 @@ async function main() {
   console.log(
     `Blog deployed to ${blog.target}`
   );
+
+  const [owner] = await ethers.getSigners();
+
+  fs.writeFileSync('./address.ts', `
+  export const contractAddress = "${blog.target}"
+  export const ownerAddress = "${owner.address}"
+  `)
 }
 
 // We recommend this pattern to be able to use async/await everywhere

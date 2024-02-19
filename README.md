@@ -34,3 +34,24 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Deploy Contract
+
+```
+npx hardhat run scripts/deploy.ts
+```
+
+```
+npx hardhat run scripts/deploy.ts --network localhost
+```
+
+## Compile contract
+```
+npx hardhat compile
+```
+
+### To run Hardhat Network
+```
+npx hardhat node
+0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+```
