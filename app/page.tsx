@@ -1,21 +1,62 @@
 'use client'
 
 import Image from "next/image";
-import { useContext } from "react";
+import { ethers } from "ethers";
+import { useContext, useState } from "react";
 import { AccountContext } from "./account-context";
 import { useRouter } from "next/navigation";
+import { contractAddress } from "../address";
+import Blog from '../artifacts/contracts/Blog.sol/Blog.json'
+
+export type Post = {
+  id: number,
+  title: string,
+  content: string,
+  published: boolean,
+}
 
 export default function Home() {
 
   const account = useContext(AccountContext);
   const router = useRouter()
+
+  const [data, setData] = useState<Post[]>([]);
+  
   async function onCreatePostClick() {
     router.push('/create-post')
   }
+
+  async function getAllPost() {   
+    if (typeof window.ethereum !== 'undefined') {
+        console.log(window.ethereum);
+        // const provider = new ethers.BrowserProvider(window.ethereum)
+        const provider = new ethers.JsonRpcProvider('http://localhost:8545');
+        // const signer = provider.getSigner()
+        const contract = new ethers.Contract(contractAddress, Blog.abi ,provider);
+        // console.log('contract: ', contract)
+        try {
+          const data = await contract.fetchAllPosts()
+          console.log({data});
+          // setData(data as Post[]);
+          /* optional - wait for transaction to be confirmed before rerouting */
+          /* await provider.waitForTransaction(val.hash) */
+          // console.log('data: ', JSON.stringify(data))
+        } catch (err) {
+          console.log('Error: ', err)
+        }
+      } else {
+        alert('window ethereum undefined');
+      }
+  }
+
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {account ? (
-        <button onClick={onCreatePostClick}>Create Post</button>
+        <div>
+          <button onClick={onCreatePostClick}>Create Post</button>
+          <button onClick={getAllPost}>Get All Posts</button>
+        </div>
       ) : []}
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
