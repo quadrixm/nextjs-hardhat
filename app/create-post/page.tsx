@@ -18,11 +18,12 @@ export default function CreatePost() {
             // TODO Tried to connect with provider to create post however it is not allowing to write
             // Using the private key and wallet it is however allowing it.
             const provider = new ethers.BrowserProvider(window.ethereum, "any")
+            // const provider = new ethers.providers.Web3Provider(window.ethereum);
             // const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
             // const provider = new ethers.JsonRpcProvider('http://localhost:8545');
             // const wallet = new ethers.Wallet(privateKey, provider);
-            // const signer = provider.getSigner()
-            const contract = new ethers.Contract(contractAddress, Blog.abi, provider);
+            const signer = await provider.getSigner()
+            const contract = new ethers.Contract(contractAddress, Blog.abi, signer);
             console.log('contract: ', contract)
             try {
               const val = await contract.createPost(title, content)
