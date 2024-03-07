@@ -20,7 +20,9 @@ export default function Home() {
   const account = useContext(AccountContext);
   const router = useRouter()
 
-  const [data, setData] = useState<Post[]>([]);
+  // const [data, setData] = useState<Post[]>([]);
+
+  const [posts, setPosts] = useState([]);
   
   async function onCreatePostClick() {
     router.push('/create-post')
@@ -35,8 +37,16 @@ export default function Home() {
         const contract = new ethers.Contract(contractAddress, Blog.abi ,provider);
         // console.log('contract: ', contract)
         try {
-          const data = await contract.fetchAllPosts()
-          console.log({data});
+          const response = await contract.fetchAllPosts()
+          console.log((response));
+
+          setPosts(response.map((post: any) => ({
+            // Assume post is an object with properties you need
+            id: post.id.toString(),
+            title: post.title,
+            content: post.content,
+            // Add more properties as needed
+          })));
           // setData(data as Post[]);
           /* optional - wait for transaction to be confirmed before rerouting */
           /* await provider.waitForTransaction(val.hash) */
@@ -58,6 +68,19 @@ export default function Home() {
           <button onClick={getAllPost}>Get All Posts</button>
         </div>
       ) : []}
+
+      <div>
+        <h1>Posts</h1>
+        <ul>
+          {posts.map((post: any) => (
+            <li key={post.id}>
+              <h2>{post.title}</h2>
+              <p>{post.content}</p>
+              {/* Display more post details here */}
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Get started by editing&nbsp;
