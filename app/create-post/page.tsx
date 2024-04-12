@@ -39,20 +39,35 @@ export default function CreatePost() {
           }
       }
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <input
-                onChange={(e) => setTitle(String(e.target.value))}
-                name='title'
-                placeholder='Give it a title ...'
-                value={title}
-            />
-            <input
-                onChange={(e) => setContent(String(e.target.value))}
-                name='content'
-                placeholder='Enter content'
-                value={content}
-            />
-            <button onClick={createNewPost}>Create Post</button>
-        </main>
+      <main className="flex flex-col items-center justify-center p-6 min-h-screen bg-gray-50">
+        <input
+          onChange={(e) => setTitle(String(e.target.value))}
+          name='title'
+          placeholder='Give it a title ...'
+          value={title}
+          className="form-input mt-4 px-4 py-2 border rounded-md w-full max-w-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+        />
+        <input
+          onChange={(e) => setContent(String(e.target.value))}
+          name='content'
+          placeholder='Enter content'
+          value={content}
+          className="form-input mt-4 px-4 py-2 border rounded-md w-full max-w-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+        />
+        <div className="space-x-4 mt-6">
+          <button 
+            onClick={createNewPost}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Create Post
+          </button>
+          <button 
+            onClick={() => {window.history.back()}}
+            className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+          >
+            Back
+          </button>
+        </div>
+      </main>
     );
 }
