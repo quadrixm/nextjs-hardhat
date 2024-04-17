@@ -29,10 +29,6 @@ contract Blog is Ownable {
     name = _name;
   }
 
-  // function transferOwnership(address newOwner) public onlyOwner () {
-  //   owner = newOwner;
-  // }
-
   function fetchPost(string memory hash) public view returns (Post memory) {
     return hashToPost[hash];
   }

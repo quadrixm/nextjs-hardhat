@@ -48,6 +48,8 @@ npx hardhat run scripts/deploy.ts --network localhost
 ## Compile contract
 ```
 npx hardhat compile
+
+npx hardhat compile --force
 ```
 
 ### To run Hardhat Network
