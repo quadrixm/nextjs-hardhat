@@ -46,6 +46,7 @@ npx hardhat run scripts/deploy.ts --network localhost
 ```
 
 ## Compile contract
+Make sure to change something before deploying or remove any cache
 ```
 npx hardhat compile
 
@@ -56,4 +57,9 @@ npx hardhat compile --force
 ```
 npx hardhat node
 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+```
+
+### Change node default version
+```
+nvm alias default 20
 ```

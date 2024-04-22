@@ -2,7 +2,7 @@
 
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { contractAddress } from "../../address";
 import Blog from '../../artifacts/contracts/Blog.sol/Blog.json'
 
@@ -10,6 +10,33 @@ export default function CreatePost() {
     const router = useRouter()
     const [title, setTitle] = useState<string>('');
     const [content, setContent] = useState<string>('');
+
+    useEffect(() => {
+      const onEventReceived = (param1: any, param2: any, event: any) => {
+          console.log(`Event received: ${param1}, ${param2}`);
+          console.log({event});
+      };
+
+      if (typeof window.ethereum !== 'undefined') {
+        console.log(window.ethereum);
+        const provider = new ethers.BrowserProvider(window.ethereum)
+        // const provider = new ethers.JsonRpcProvider('http://localhost:8545');
+        // const signer = provider.getSigner()
+        const contract = new ethers.Contract(contractAddress, Blog.abi ,provider);
+        // console.log('contract: ', contract)
+
+
+        contract.on("PostCreated", onEventReceived);
+
+        // Cleanup listener when component unmounts
+        return () => {
+            contract.off("PostCreated", onEventReceived);
+        };
+      } else {
+        alert('window ethereum undefined');
+      }
+
+  }, []);
 
     async function createNewPost() {   
         if (!title || !content) return
@@ -29,11 +56,11 @@ export default function CreatePost() {
               const val = await contract.createPost(title, content)
               /* optional - wait for transaction to be confirmed before rerouting */
               /* await provider.waitForTransaction(val.hash) */
-              console.log('val: ', val)
+              console.log('------Val: ', val)
             } catch (err) {
-              console.log('Error: ', err)
+              console.log('------Error: ', JSON.stringify(err))
             }
-            router.push(`/`)
+            // router.push(`/`)
           } else {
             alert('window ethereum undefined');
           }

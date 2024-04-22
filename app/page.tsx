@@ -34,11 +34,11 @@ export default function Home() {
         // const provider = new ethers.BrowserProvider(window.ethereum)
         const provider = new ethers.JsonRpcProvider('http://localhost:8545');
         // const signer = provider.getSigner()
-        const contract = new ethers.Contract(contractAddress, Blog.abi ,provider);
+        const contract = new ethers.Contract(contractAddress, Blog.abi, provider);
         // console.log('contract: ', contract)
         try {
           const response = await contract.fetchAllPosts()
-          console.log((response));
+          console.log({response});
 
           setPosts(response.map((post: any) => ({
             // Assume post is an object with properties you need
@@ -52,7 +52,7 @@ export default function Home() {
           /* await provider.waitForTransaction(val.hash) */
           // console.log('data: ', JSON.stringify(data))
         } catch (err) {
-          console.log('Error: ', err)
+          console.log('--------Error: ', err)
         }
       } else {
         alert('window ethereum undefined');
