@@ -1,6 +1,5 @@
 'use client'
 
-import Image from "next/image";
 import { ethers } from "ethers";
 import { useContext, useState } from "react";
 import { AccountContext } from "./account-context";
@@ -20,8 +19,6 @@ export default function Home() {
   const account = useContext(AccountContext);
   const router = useRouter()
 
-  // const [data, setData] = useState<Post[]>([]);
-
   const [posts, setPosts] = useState([]);
   
   async function onCreatePostClick() {
@@ -35,7 +32,7 @@ export default function Home() {
         const provider = new ethers.JsonRpcProvider('http://localhost:8545');
         // const signer = provider.getSigner()
         const contract = new ethers.Contract(contractAddress, Blog.abi, provider);
-        // console.log('contract: ', contract)
+        console.log({contract})
         try {
           const response = await contract.fetchAllPosts()
           console.log({response});

@@ -51,7 +51,7 @@ export default function CreatePost() {
             // const wallet = new ethers.Wallet(privateKey, provider);
             const signer = await provider.getSigner()
             const contract = new ethers.Contract(contractAddress, Blog.abi, signer);
-            console.log('contract: ', contract)
+            console.log({contract});
             try {
               const val = await contract.createPost(title, content)
               /* optional - wait for transaction to be confirmed before rerouting */

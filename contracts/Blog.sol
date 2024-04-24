@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "hardhat/console.sol";
+// import "hardhat/console.sol";
 
 contract Blog is Ownable {
   string public name;
@@ -35,7 +35,7 @@ contract Blog is Ownable {
   }
 
   function createPost(string memory title, string memory hash) public onlyOwner {
-    console.log("Called myFunction with param:", title);
+    // console.log("Called createPost with param:", title, hash);
     _postIds += 1;
     uint postId = _postIds;
     Post storage post = idToPost[postId];
